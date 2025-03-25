@@ -85,15 +85,6 @@
             background: rgb(255, 140, 30);
         }
 
-        /* Hero Section */
-        .hero {
-            text-align: center;
-            padding: 50px 20px;
-            background: rgb(40, 40, 60);
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
         /* Upload Section */
         .upload-section {
             text-align: center;
@@ -120,98 +111,16 @@
         input[type="file"] {
             display: none;
         }
-
-        button {
-            margin-top: 15px;
-            padding: 10px 20px;
-            background: rgb(40, 167, 69);
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        button:hover {
-            background: rgb(33, 136, 56);
-        }
-
-        /* Dashboard */
-        .dashboard {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-top: 30px;
-        }
-
-        .card {
-            background: rgb(60, 60, 90);
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            font-size: 18px;
-            transition: 0.3s;
-        }
-
-        .card:hover {
-            background: rgb(70, 70, 100);
-        }
-
-        /* Floating Upload Button */
-        .floating-upload {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgb(0, 123, 255);
-            color: white;
-            padding: 15px 20px;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .floating-upload:hover {
-            background: rgb(0, 100, 200);
-        }
-
-        /* Light Mode */
-        .light-mode {
-            background: rgb(255, 255, 255);
-            color: rgb(0, 0, 0);
-        }
-
-        .light-mode .sidebar {
-            background: rgb(220, 220, 255);
-        }
-
-        .light-mode .navbar {
-            background: rgb(230, 230, 255);
-        }
-
-        .light-mode .hero, 
-        .light-mode .upload-section, 
-        .light-mode .card {
-            background: rgb(240, 240, 255);
-        }
-
-        .light-mode .sidebar ul li a {
-            color: rgb(24, 24, 114);
-        }
-
-        .light-mode .sidebar ul li a:hover {
-            color: rgb(0, 0, 100);
-        }
     </style>
 </head>
-
 <body>
     <!-- Sidebar -->
     <aside class="sidebar">
         <h2>📊 Data Insights</h2>
         <ul>
-            <li><a href="#">🏠 Home</a></li>
-            <li><a href="#">📂 Upload Data</a></li>
-            <li><a href="#">📈 Visualizations</a></li>
+            <li><a href="/">🏠 Home</a></li>
+            <li><a href="/upload">📂 Upload Data</a></li>
+            <li><a href="/visualizations">📈 Visualizations</a></li>
             <li><a href="#">🛠 Data Cleaning</a></li>
             <li><a href="#">ℹ️ About</a></li>
         </ul>
@@ -221,38 +130,18 @@
         <!-- Navbar -->
         <header class="navbar">
             <h1>Welcome to Data Insights</h1>
-            <button onclick="toggleMode()">🌙 Toggle Theme</button>
         </header>
-
-        <!-- Hero Section -->
-        <section class="hero">
-            <h2>Discover Hidden Patterns in Your Data</h2>
-            <p>Upload your dataset and get instant insights with interactive visualizations.</p>
-        </section>
 
         <!-- Upload Section -->
         <section class="upload-section">
             <h2>📂 Upload Your Dataset</h2>
             <p>Get quick insights from your data.</p>
-            <label for="file-upload" class="custom-file-upload">Choose File</label>
-            <input type="file" id="file-upload" accept=".csv, .xlsx">
-            <button onclick="processData()">Generate Insights</button>
+            <form action="/" method="post" enctype="multipart/form-data">
+                <label for="file-upload" class="custom-file-upload">Choose File</label>
+                <input type="file" id="file-upload" name="file" accept=".csv, .xlsx">
+                <button type="submit">Generate Insights</button>
+            </form>
         </section>
-
-        <!-- Dashboard Section -->
-        <section class="dashboard">
-            <div class="card">📄 Data Summary</div>
-            <div class="card">📊 Charts</div>
-            <div class="card">📉 Trends</div>
-        </section>
-
-        <!-- Floating Upload Button -->
-        <div class="floating-upload">
-            <label for="file-upload">📂 Upload Data</label>
-        </div>
     </main>
-
-    <!-- Link to processData.js -->
-    <script src="./processdata.js"></script>
 </body>
 </html>

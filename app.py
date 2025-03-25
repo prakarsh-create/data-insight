@@ -1,46 +1,30 @@
-from flask import Flask, request, jsonify, render_template, send_from_directory
+from flask import Flask, request, render_template
 import os
-from visualize import process_file
+import process
+import visualize
 
 app = Flask(__name__)
-
-UPLOAD_FOLDER = 'uploads'
-PLOT_FOLDER = 'static'
+UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
-os.makedirs(PLOT_FOLDER, exist_ok=True)
+app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
-@app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/upload', methods=['POST'])
+@app.route("/", methods=["GET", "POST"])
 def upload_file():
-    if 'file' not in request.files:
-        return jsonify({'error': 'No file uploaded'}), 400
+    if request.method == "POST":
+        file = request.files["file"]
+        if file:
+            file_path = os.path.join(app.config["UPLOAD_FOLDER"], file.filename)
+            file.save(file_path)
 
-    file = request.files['file']
-    if file.filename == '':
-        return jsonify({'error': 'No file selected'}), 400
+            # Process Data
+            insights = process.get_insights(file_path)
 
-    file_path = os.path.join(UPLOAD_FOLDER, file.filename)
-    file.save(file_path)
+            # Generate Visualization
+            visualize.generate_visual(file_path)
 
-    try:
-        # ✅ Call process_file from visualize.py
-        summary, plot_path = process_file(file_path)
+            return render_template("insights.html", insights=insights, file_name=file.filename)
 
-        return jsonify({
-            'summary': summary,
-            'plot_url': f'/{plot_path}'
-        })
+    return render_template("upload.html")
 
-    except Exception as e:
-        return jsonify({'error': str(e)}), 500
-
-
-@app.route('/static/<path:filename>')
-def serve_static(filename):
-    return send_from_directory('static', filename)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
