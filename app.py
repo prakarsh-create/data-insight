@@ -3,7 +3,8 @@ import os
 import process
 import visualize
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder="templates", static_folder="static")
+
 UPLOAD_FOLDER = "uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
@@ -24,7 +25,7 @@ def upload_file():
 
             return render_template("insights.html", insights=insights, file_name=file.filename)
 
-    return render_template("upload.html")
+    return render_template("index.html")  # Make sure index.html exists inside templates/
 
 if __name__ == "__main__":
     app.run(debug=True)
