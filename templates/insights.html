@@ -7,53 +7,82 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <style>
-    /* Insights Section */
+    /* 📊 Insights Section */
 .insights-section {
     text-align: center;
-    margin-top: 30px;
+    margin: 40px auto;
     background: rgb(242, 242, 245);
-    padding: 30px;
+    padding: 40px;
     border-radius: 10px;
+    max-width: 80%;
 }
 
-.highlight {
-    color: rgb(22, 72, 46);
-}
-
+/* 🔹 Grid Layout for Insights */
 .insights-box {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Auto-fit layout */
     gap: 20px;
-    margin-top: 20px;
+    padding: 10px;
 }
 
+/* 🔥 Insight Cards */
 .insight-card {
-    background: rgb(9, 58, 33);
-    padding: 20px;
+    background: #34495e;
+    ;
+    padding: 25px;
     border-radius: 10px;
-    width: 250px;
     text-align: center;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease-in-out;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-in-out forwards;
 }
 
+/* 🎨 Color Coding */
+.missing {
+    background: rgb(255, 77, 77); /* 🔴 Red for missing values */
+}
+
+.mean {
+    background: rgb(50, 150, 250); /* 🔵 Blue for mean */
+}
+
+.max {
+    background: rgb(50, 200, 100); /* 🟢 Green for max */
+}
+
+/* ✨ Hover Effects */
 .insight-card:hover {
     transform: scale(1.05);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.insight-card h3 {
-    font-size: 18px;
-    color: rgb(255, 170, 50);
-    margin-bottom: 10px;
+/* 📌 Fade-in Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
+/* ✂️ Truncate Long Text */
 .insight-card p {
     font-size: 16px;
     color: rgb(200, 200, 255);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Show "..." if text is too long */
+    max-width: 220px;
 }
 
-/* Buttons */
+/* 🛠 Show Full Text on Hover */
+.insight-card p:hover {
+    white-space: normal;
+    overflow: visible;
+}
+
+/* 🟠 Buttons */
 .actions {
     margin-top: 30px;
 }
@@ -62,7 +91,7 @@
     display: inline-block;
     padding: 12px 20px;
     background: rgb(255, 170, 50);
-    color: rgb(30, 30, 46);
+    color: rgb(27, 77, 71);
     text-decoration: none;
     border-radius: 5px;
     font-weight: bold;
@@ -82,6 +111,11 @@
 .btn-secondary:hover {
     background: rgb(0, 100, 200);
 }
+
+ 
+  
+
+
 .navbar {
     border-bottom: 1px solid #e0e0e0;
     padding-bottom: 15px;
@@ -99,7 +133,7 @@
 <body>
 
     <nav>
-        <h2>📊 Data Insights</h2>
+        <h2>📊 InsightsIQ</h2>
         <ul>
             <li><a href="/">🏠 Home</a></li>
             <li><a href="/upload">📂 Upload Data</a></li>
@@ -119,18 +153,23 @@
             <h2>📊 Key Insights</h2>
             <div class="insights-box">
                 {% for key, value in insights.items() %}
-                    <div class="insight-card">
+                    <div class="insight-card 
+                        {% if 'missing' in key.lower() %} missing 
+                        {% elif 'mean' in key.lower() %} mean 
+                        {% elif 'max' in key.lower() %} max 
+                        {% endif %}">
                         <h3>{{ key }}</h3>
-                        <p>{{ value }}</p>
+                        <p title="{{ value }}"><strong>{{ value }}</strong></p>  <!-- Tooltip on hover -->
                     </div>
                 {% endfor %}
             </div>
-
+        
             <div class="actions">
                 <a href="/" class="btn">🔄 Upload Another File</a>
                 <a href="/visualizations" class="btn btn-secondary">📈 View Visualizations</a>
             </div>
         </section>
+        
     </main>
 
 </body>
