@@ -5,37 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Data Insights</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-
-    
 </head>
 <body>
-    <!-- Sidebar -->
-    <aside class="sidebar">
+    <nav>
         <h2>📊 Data Insights</h2>
         <ul>
             <li><a href="/">🏠 Home</a></li>
             <li><a href="/upload">📂 Upload Data</a></li>
             <li><a href="/visualizations">📈 Visualizations</a></li>
             <li><a href="#">🛠 Data Cleaning</a></li>
-            <li><a href="#">ℹ️ About</a></li>
+            <li><a href="/templates/about.html">ℹ️ About</a></li>
         </ul>
-    </aside>
+    </nav>
 
     <main class="content">
-        <!-- Navbar -->
         <header class="navbar">
             <h1>Welcome to Data Insights</h1>
         </header>
 
-        <!-- Upload Section -->
         <section class="upload-section">
-            <h2>📂 Upload Your Dataset</h2>
-            <p>Get quick insights from your data.</p>
-            <form action="/" method="post" enctype="multipart/form-data">
-                <label for="file-upload" class="custom-file-upload">Choose File</label>
-                <input type="file" id="file-upload" name="file" accept=".csv, .xlsx">
-                <button type="submit">Generate Insights</button>
-            </form>
+            <div class="upload-content">
+                <h2>📂 Upload Your Dataset</h2>
+                <p>Get quick insights from your data.</p>
+                <p>Upload your dataset in CSV or Excel format to begin.</p>
+                <p>Our tool will help you analyze and visualize your data effortlessly.</p>
+                <form action="/" method="post" enctype="multipart/form-data">
+                    <label for="file-upload" class="custom-file-upload">Choose File</label>
+                    <input type="file" id="file-upload" name="file" accept=".csv, .xlsx">
+                    <button type="submit">Generate Insights</button>
+                </form>
+            </div>
+            <div class="upload-image">
+                <img src="{{ url_for('static', filename='your-image.png') }}" alt="Data Insights">
+            </div>
         </section>
     </main>
 </body>
